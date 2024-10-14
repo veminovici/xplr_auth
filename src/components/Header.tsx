@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SignInButton from "./SignInButton";
 
-export default function Header() {
+export default async function Header() {
   return (
     <header className="flex h-24 flex-col justify-center bg-gray-400">
       <nav className="container">

@@ -1,19 +1,18 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authoptions";
 import { redirect } from "next/navigation";
+import { User } from "next-auth";
+import { Role } from "@/types/role";
 
 export default async function ServerProtectedPage() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
     redirect("/signin?callbackUrl=/protected/server");
-    // return {
-    //   redirect: {
-    //     destination: "/signin?callbackUrl=/protected/server",
-    //     permanent: false,
-    //   },
-    // };
   }
+
+  const user: User | undefined = session?.user;
+  const role: Role | undefined = user?.role;
 
   return (
     <section className="py-24">
@@ -24,9 +23,10 @@ export default async function ServerProtectedPage() {
         </h1>
         <h2 className="mt-4 font-medium">You are logged in as:</h2>
         <p className="mt-4 font-bold">{session?.user?.name}</p>
-        <p>Name: {session?.user?.name}</p>
-        <p>Email: {session?.user?.email}</p>
-        <p>Image: {session?.user?.image}</p>
+        <p>Name: {user?.name}</p>
+        <p>Email: {user?.email}</p>
+        <p>Image: {user?.image}</p>
+        <p>Role: {role}</p>
       </div>
     </section>
   );
